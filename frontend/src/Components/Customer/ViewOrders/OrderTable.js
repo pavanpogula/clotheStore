@@ -82,7 +82,7 @@ const convertToDateText = (dateString) => {
         {
             orderDetails &&orderDetails.length>0?<TableBody>
             {orderDetails.map((obj,index) => (
-              <StyledTableRow key={index} onClick={()=>orderPageHandler(obj)} style={{cursor:'pointer'}}>
+              <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {index+1}
                 </StyledTableCell>
