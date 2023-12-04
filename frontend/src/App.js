@@ -30,6 +30,7 @@ function App() {
         <Routes>
        
           <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
          {/* Admin routes */}
           <Route path="/adminDashboard"  element={<ViewProductsPageAdmin/>} />
           <Route path="/adminEditProduct"  element={<UpdateProduct/>} />

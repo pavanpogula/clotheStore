@@ -26,7 +26,7 @@ const Header = () => {
  const handleLogout = async () =>{
     await cookies.remove("id");
    await cookies.remove("role");
-    navigate("/")
+    navigate("/login")
 
  }
 

@@ -139,7 +139,7 @@ const CustomerPaymentForm = ({setisPaymentDetailsEmpty,setpaymentType,setpayment
       </Stack>
       <FormControl sx={{ width: '120px' }}>
         <TextField
-          label="Pincode"
+          label="Zip Code"
           value={pincode}
           onChange={handlePincodeChange}
         />

@@ -213,7 +213,7 @@ const CustomerRegistration = () => {
           style={{marginTop:'10px'}}
         />
         <TextField
-          label="Pincode"
+          label="Zip Code"
           value={pincode}
           onChange={(e) => setPincode(e.target.value)}
           error={errors.pincode}
