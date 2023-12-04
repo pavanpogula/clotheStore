@@ -47,7 +47,7 @@ function App() {
            <Route path="/customerUpdateOrder" element={<ErrorPage/>}/>
            <Route path="/cart" element={<CustomerCart/>}/>
            <Route path="/checkout" element={<CustomerOrderSummary/>}/>
-           <Route path="/customerOrderPage" element={<Orders/>}/>
+           <Route path="/customerViewOrders" element={<Orders/>}/>
         </Routes>
 
       </BrowserRouter>
