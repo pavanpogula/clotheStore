@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { MainNav } from './Styles'
+
 import styled from "styled-components"
 import SingleOrderTable from './SingleOrderTable';
 import Box from '@mui/material/Box';
@@ -41,14 +41,14 @@ function ShowOrderPageAdmin() {
     const deliverOrder = async () => {
 
         const data = {
-            delivery_status: "Delivered",
+            deliveryStatus: "delivered",
         }
 
-        const response = await axios.put(`http://localhost:8000/deliverOrder/${state._id}`, { ...data })
-            .then(e => e.data.data);
-        if (response.msg == "success") {
+        const response = await axios.post(`http://localhost:8000/updateOrder`, { orderId:state._id })
+            .then(e => e.data);
+        if (response.msg == "good") {
 
-            navigate("/adminOrderDetails")
+            navigate("/adminViewOrders")
 
         }
 
@@ -80,7 +80,7 @@ function ShowOrderPageAdmin() {
             </LeftContainer>
             <RightContainer>
 
-                {!(state.delivery_status == "Delivered" || state.delivery_status == "Cancelled") ?
+                {!(state.deliveryStatus == "delivered" ) ?
                     <>
                         <Card>
                             <Title >
@@ -97,7 +97,7 @@ function ShowOrderPageAdmin() {
                                         onChange={handleChange}
                                     >
                                         {
-                                            state.delivery_type == "delivery" ?
+                                            state.deliveryType == "delivery" ?
                                                 <MenuItem key={'331'} value={"Delivered"}>{"Delivered"}</MenuItem>
                                                 :
                                                 <MenuItem key={'3ww31'} value={"ReadyForPickup"}>{"ReadyForPickup"}</MenuItem>
@@ -115,37 +115,9 @@ function ShowOrderPageAdmin() {
 
                     </> :<></>
 }
-                    {(state.delivery_status == "PCancelled") ?
-                        <>
-                            <Card>
-                                <Title >
-                                    Cancellation Request Options
-                                </Title>
-                                <Box sx={{ minWidth: 120 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Cancellation</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={cancelValue}
-                                            label="Age"
-                                            onChange={handleCancelChange}
-                                        >
-                                            <MenuItem key={'3ww31'} value={"Cancelled"}>{"Cancel"}</MenuItem>
-                                            <MenuItem key={'331qq'} value={"CannotCancel"}>{"Cannot Cancel"}</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                                <ButtonContainer>
-                                    <Button variant="contained" size="medium" onClick={() => cancelOrder()} >
-                                       Cancel ORDER
-                                    </Button>
-                                </ButtonContainer>
-                            </Card>
-
-                        </> : <></>
+            
                 
-}
+
 
             </RightContainer>
 

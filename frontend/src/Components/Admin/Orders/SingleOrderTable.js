@@ -1,0 +1,89 @@
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import { Cookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+
+export default function SingleOrderTable({orderDetails}) {
+  
+    const cookies = new Cookies()
+    const navigate = useNavigate();
+   const [addressShow,setAddressShow] = React.useState("");
+    const multiplyFun = (a, b) => {
+        const total = parseFloat(((a * b).toFixed(2)));
+        return total
+    };
+
+   
+    
+
+    console.log("admin order details : ",orderDetails)
+const convertToDateText = (dateString) => {
+    const date = new Date(dateString);
+
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    return formattedDate;
+}
+ return(<> <TableContainer component={Paper}>
+  <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableHead>
+      <TableRow>
+        
+       
+      <StyledTableCell align="right">ID</StyledTableCell>
+        <StyledTableCell align="right">Total</StyledTableCell>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        
+           
+          <StyledTableRow>
+            
+          <StyledTableCell align="right">{orderDetails._id}</StyledTableCell>
+            <StyledTableCell align="right">{orderDetails.total}</StyledTableCell>
+            
+            </StyledTableRow>
+            
+            
+        
+      </TableBody>
+  </Table>
+</TableContainer>
+
+
+
+
+
+
+
+</>)
+}

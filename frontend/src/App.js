@@ -16,6 +16,8 @@ import CustomerCart from "./Components/Customer/Cart/CustomerCart";
 import CustomerOrderSummary from "./Components/Customer/Orders/CustomerOrderSummary";
 import Orders from "./Components/Customer/ViewOrders/Orders";
 import AdminOrders from "./Components/Admin/Orders/AdminViewOrders";
+import SingleOrderTable from "./Components/Admin/Orders/SingleOrderTable";
+import ShowOrderPageAdmin from "./Components/Admin/Orders/ShowOrderPage";
 
 
 
@@ -34,7 +36,8 @@ function App() {
           <Route path="/viewProductsAdmin" element={<ViewProductsPageAdmin/>}/>
           <Route path="/adminAddProduct"  element={<AddProduct/>} />
           <Route path="/adminViewOrders"  element={<AdminOrders/>} />
-         
+          
+          <Route path="/adminSingleOrderPage"  element={<ShowOrderPageAdmin/>} />
            {/* student routes */}
            
            <Route path="/customerDashboard"  element={<ViewProductsPageCustomer/>} />
