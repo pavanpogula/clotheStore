@@ -3,7 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const { adminLogin, fetchAdmin } = require('./DAO/entities/Admin/adminRepo');
-const { customerLogin, addCustomer, getCustomerDetailsById } = require('./DAO/entities/Customer/customerRepo');
+const { customerLogin, addCustomer, getCustomerDetailsById, placeOrder } = require('./DAO/entities/Customer/customerRepo');
 const {  addClothes, getAllBrands, getAllProductsWithImages, updateProductAdmin } = require('./DAO/entities/Clothes/clotheRepo');
 const { database } = require('./DAO/entities/Collection');
 const { GridFSBucket } = require('mongodb');
@@ -126,6 +126,13 @@ app.post("/updateProductAdmin",upload.any(), async (req,res) => {
 
 app.get("/getAllBrands",upload.any(), async (req,res) => {
     const data = await getAllBrands();
+    res.json({...data});
+});
+
+app.post("/placeOrder",upload.any(), async (req,res) => {
+    const  {  selectedPayment,selectedAddress,selectedProductArray,deliveryType,customerId,total} = req.body;
+    console.log("placeOrder : ",{   selectedPayment,selectedAddress,selectedProductArray,deliveryType,customerId })
+    const data = await placeOrder({   selectedPayment,selectedAddress,selectedProductArray,deliveryType,customerId,total  })
     res.json({...data});
 });
 

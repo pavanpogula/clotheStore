@@ -11,7 +11,10 @@ import UpdateProduct from "./Components/Admin/UpdateProduct/UpdateProduct";
 import ViewProductsPageAdmin from "./Components/Admin/ViewProducts/AdminDashboardPage";
 import CustomerRegistration from "./Components/Customer/CustomerRegistration/CustomerRegistration";
 import ErrorPage from "./Components/Customer/ErrorPage/ErrorPage";
-import ViewProductsPage from "./Components/Customer/ViewProducts/ViewProductsPage";
+import ViewProductsPageCustomer from "./Components/Customer/ViewProducts/ViewProductsPageCustomer";
+import CustomerCart from "./Components/Customer/Cart/CustomerCart";
+import CustomerOrderSummary from "./Components/Customer/Orders/CustomerOrderSummary";
+
 
 
 function App() {
@@ -24,7 +27,7 @@ function App() {
        
           <Route path="/" element={<Login />} />
          {/* Admin routes */}
-          <Route path="/adminDashboard"  element={<AdminDashboardPage/>} />
+          <Route path="/adminDashboard"  element={<ViewProductsPageAdmin/>} />
           <Route path="/adminEditProduct"  element={<UpdateProduct/>} />
           <Route path="/viewProductsAdmin" element={<ViewProductsPageAdmin/>}/>
           <Route path="/adminAddProduct"  element={<AddProduct/>} />
@@ -33,8 +36,10 @@ function App() {
            <Route path="/customerDashboard"  element={<CustomerDashboardPage/>} />
            <Route path="/CustomerRegistration"  element={<CustomerRegistration/>} />
            <Route path="/CustomerOrdersPage" element={<ErrorPage/>}/>
-           <Route path="/viewProductsCustomer" element={<ViewProductsPage/>}/>
+           <Route path="/viewProductsCustomer" element={<ViewProductsPageCustomer/>}/>
            <Route path="/customerUpdateOrder" element={<ErrorPage/>}/>
+           <Route path="/cart" element={<CustomerCart/>}/>
+           <Route path="/checkout" element={<CustomerOrderSummary/>}/>
         </Routes>
 
       </BrowserRouter>

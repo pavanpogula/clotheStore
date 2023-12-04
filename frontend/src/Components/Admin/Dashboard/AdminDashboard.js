@@ -51,9 +51,6 @@ function AdminDashboardPage() {
           [ 
             {title:"Add Products",redirect:"/adminAddProduct"},
             {title:"View Products",redirect:"/viewProductsAdmin"},
-           
-           
-            
           ].map((obj,index) => (
             <Card key={`card-${index}`}>
               <SubCardContainer  key={`SubCardContainer-${index}`} onClick={()=>handleAdminRoutes(obj.title,obj.redirect)}>

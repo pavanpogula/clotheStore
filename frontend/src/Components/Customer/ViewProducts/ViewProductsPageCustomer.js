@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
+
 import { getAllProductsWithImages } from '../../../features/product/adminProductSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import ProductCard from './ProductCard';
-import { MainNav } from '../styles/styles';
+
 import HeaderTextComponent from '../../Login/HeaderTextComponent';
 import { useNavigate } from 'react-router-dom';
+import { MainNav } from '../../Admin/styles/styles';
+import Fab from '@mui/material/Fab';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-
-
-function ViewProductsPageAdmin() {
+function ViewProductsPageCustomer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsData = useSelector(state => state.adminProducts['productsWithImages'])
-  const addProduct = ()=>{
-    navigate('/adminAddProduct');
+  const goToCart = ()=>{
+    navigate('/cart');
   }
   useEffect(() => {
     dispatch(getAllProductsWithImages());
@@ -26,11 +25,11 @@ function ViewProductsPageAdmin() {
 
     <MainNav>
       <HeaderTextComponent title={'Dasboard'}/>
-      <Fab onClick={()=>addProduct()} color="primary" aria-label="add" variant="extended" >
-        <AddIcon  sx={{ mr: 1 }} />
-        Add Product
+      
+      <Fab onClick={()=>goToCart()} color="primary" aria-label="add" variant="extended" >
+        <ShoppingCartIcon  sx={{ mr: 1 }} />
+        Cart
       </Fab>
-
       <>
         <div style={{ display: 'flex', flexWrap: 'wrap', width: '1300px', justifyContent: 'space-between' }}>
 
@@ -61,4 +60,4 @@ function ViewProductsPageAdmin() {
   )
 }
 
-export default ViewProductsPageAdmin
+export default ViewProductsPageCustomer

@@ -7,6 +7,7 @@ import MultipleSelectSizes from './MultipleSelectSizes';
 import BrandSelect from './BrandSelect';
 import { useDispatch } from 'react-redux';
 import { insertProducts, updateProductAdmin } from '../../../features/product/adminProductSlice';
+import HeaderTextComponent from '../../Login/HeaderTextComponent';
 
 
 const Container = styled.div`
@@ -98,9 +99,7 @@ const UpdateProduct = () => {
 
   return (
     <Container>
-        <h3>
-            Add Product
-        </h3>
+       <HeaderTextComponent title={'Update Product Details'} />
       <TextField
         label="Product Title"
         name="title"
