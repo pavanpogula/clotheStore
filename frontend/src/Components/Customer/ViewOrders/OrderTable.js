@@ -37,7 +37,7 @@ export default function CustomizedTables() {
     const cookies = new Cookies()
     const navigate = useNavigate();
     React.useEffect(() => {
-      window.location.reload();
+ 
         const fectOrderDetails = async () =>{
         const response = await axios.post(`http://localhost:8000/getOredrsByCustId`,{'customerId':cookies.get("id")}
         ,{
