@@ -4,7 +4,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const { adminLogin, fetchAdmin, } = require('./DAO/entities/Admin/adminRepo');
 const { customerLogin, addCustomer, getCustomerDetailsById, placeOrder } = require('./DAO/entities/Customer/customerRepo');
-const {  addClothes, getAllBrands,getAllOrders,updateOrder,getOrdersByCustomerId, getAllProductsWithImages, updateProductAdmin } = require('./DAO/entities/Clothes/clotheRepo');
+const {  addClothes,getPaymentData, getAllBrands,getAllOrders,updateOrder,getOrdersByCustomerId, getAllProductsWithImages, updateProductAdmin } = require('./DAO/entities/Clothes/clotheRepo');
 const { database } = require('./DAO/entities/Collection');
 const { GridFSBucket } = require('mongodb');
 const { Readable } = require('stream');
@@ -149,6 +149,13 @@ app.post("/getOredrsByCustId",upload.any(), async (req,res) => {
 app.post("/updateOrder",upload.any(), async (req,res) => {
     const {orderId} = req.body
     const data = await updateOrder({orderId});
+    res.json({...data});
+});
+
+app.get("/payment/:paymentId",upload.any(), async (req,res) => {
+    const { paymentId } = req.params;
+    console.log("paymentId : ",paymentId)
+    const data = await getPaymentData({paymentId});
     res.json({...data});
 });
 

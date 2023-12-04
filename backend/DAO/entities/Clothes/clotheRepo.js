@@ -214,6 +214,22 @@ async function updateOrder({orderId}){
     }
 }
 
+
+
+async function getPaymentData({paymentId}){
+    try {
+        
+       const data = paymentCollection.findOne({_id: new ObjectId(paymentId)})
+        return data
+    } catch (error) {
+        console.log(error)
+        return {
+           "data":""
+        }
+    }
+}
+
+
 module.exports = {
     addClothes,
     getAllBrands,
@@ -221,5 +237,6 @@ module.exports = {
     updateProductAdmin,
     getAllOrders,
     getOrdersByCustomerId,
-    updateOrder
+    updateOrder,
+    getPaymentData
 }

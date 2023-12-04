@@ -18,7 +18,7 @@ function ShowOrderPageAdmin() {
     const navigate = useNavigate()
     console.log("state data ", state)
     const goBack = () => {
-        navigate('/adminOrderDetails')
+        navigate('/adminViewOrders')
     }
 
     const cancelOrder = async () =>{

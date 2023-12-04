@@ -36,13 +36,28 @@ export default function SingleOrderTable({orderDetails}) {
   
     const cookies = new Cookies()
     const navigate = useNavigate();
-   const [addressShow,setAddressShow] = React.useState("");
+   const[paymentDetails,setPaymentDetails] = React.useState("");
     const multiplyFun = (a, b) => {
         const total = parseFloat(((a * b).toFixed(2)));
         return total
     };
-
+const addressdata = orderDetails.addressData['street'] + " | "+orderDetails.addressData['city']+" |  "+orderDetails.addressData['pin']
    
+    React.useEffect(() => {
+     
+      const fetchPaymentDetails = async () =>{
+        const response = await axios.get(`http://localhost:8000/payment/${orderDetails.payment}`)
+        .then( e => e.data);
+        
+        console.log("response data : ",response)
+
+        const addresData = 
+        setPaymentDetails({"card":response.cardNumber,"paymentType":response.cardType})
+        }
+
+        fetchPaymentDetails();
+      
+    }, [])
     
 
     console.log("admin order details : ",orderDetails)
@@ -78,6 +93,70 @@ const convertToDateText = (dateString) => {
       </TableBody>
   </Table>
 </TableContainer>
+
+
+<TableContainer component={Paper} style={{marginTop:'20px'}}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        
+        {
+           <TableBody>
+            
+              <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Order ID
+                </StyledTableCell>
+                <StyledTableCell align="right">{orderDetails._id}</StyledTableCell>
+            </StyledTableRow>
+
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Payment Type
+                </StyledTableCell>
+                <StyledTableCell align="right">{paymentDetails.paymentType}</StyledTableCell>
+            </StyledTableRow>
+
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Card Number 
+                </StyledTableCell>
+                <StyledTableCell align="right">{paymentDetails.card}</StyledTableCell>
+            </StyledTableRow>
+
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Delivery Type
+                </StyledTableCell>
+                <StyledTableCell align="right">{orderDetails.deliveryType}</StyledTableCell>
+            </StyledTableRow>
+
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Delivery Address
+                </StyledTableCell>
+                <StyledTableCell align="right">{addressdata}</StyledTableCell>
+            </StyledTableRow>
+
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Delivery Status
+                </StyledTableCell>
+                <StyledTableCell align="right">{orderDetails.deliveryStatus}</StyledTableCell>
+            </StyledTableRow>
+            <StyledTableRow>
+                <StyledTableCell component="th" scope="row">
+                  Total
+                </StyledTableCell>
+                <StyledTableCell align="right">{orderDetails.total} $</StyledTableCell>
+            </StyledTableRow>
+            
+            
+
+          </TableBody>
+
+        }
+        
+      </Table>
+    </TableContainer>
 
 
 
