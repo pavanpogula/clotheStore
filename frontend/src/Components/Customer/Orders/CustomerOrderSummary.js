@@ -55,7 +55,7 @@ function CustomerOrderSummary() {
        
         
         dispatch(insertOrder( {selectedPayment,selectedAddress,'selectedProductArray':selectedProducts,'deliveryType':deliveryType,'customerId':cookies.get("id"),'total':paymenttotal}))
-     
+     navigate('/customerViewOrders')
     }
   return (
    <>

@@ -2,9 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const bodyParser = require('body-parser');
-const { adminLogin, fetchAdmin } = require('./DAO/entities/Admin/adminRepo');
+const { adminLogin, fetchAdmin, } = require('./DAO/entities/Admin/adminRepo');
 const { customerLogin, addCustomer, getCustomerDetailsById, placeOrder } = require('./DAO/entities/Customer/customerRepo');
-const {  addClothes, getAllBrands, getAllProductsWithImages, updateProductAdmin } = require('./DAO/entities/Clothes/clotheRepo');
+const {  addClothes, getAllBrands,getAllOrders,updateOrder,getOrdersByCustomerId, getAllProductsWithImages, updateProductAdmin } = require('./DAO/entities/Clothes/clotheRepo');
 const { database } = require('./DAO/entities/Collection');
 const { GridFSBucket } = require('mongodb');
 const { Readable } = require('stream');
@@ -136,6 +136,21 @@ app.post("/placeOrder",upload.any(), async (req,res) => {
     res.json({...data});
 });
 
+app.get("/getAllOrders",upload.any(), async (req,res) => {
+    const data = await getAllOrders();
+    res.json({...data});
+});
+
+app.post("/getOredrsByCustId",upload.any(), async (req,res) => {
+    const {customerId} = req.body
+    const data = await getOrdersByCustomerId({customerId});
+    res.json({...data});
+});
+app.post("/updateOrder",upload.any(), async (req,res) => {
+    const {orderId} = req.body
+    const data = await updateOrder({orderId});
+    res.json({...data});
+});
 
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);

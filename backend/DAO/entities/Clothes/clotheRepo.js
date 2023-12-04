@@ -6,7 +6,7 @@
 
 
 const { ObjectId } = require('mongodb');
-const { brandCollection, clotheCollection, chunksCollection } = require('../Collection');
+const { brandCollection, clotheCollection, chunksCollection, orderCollection, orderArrayCollection, paymentCollection } = require('../Collection');
 
 
 const addClothes = async (productData) => {
@@ -129,7 +129,7 @@ async function getAllProductsWithImages() {
 
     try {
         const products = await clotheCollection.find().toArray();
-        console.log("products data  :", products)
+        
         const productsWithImages = await Promise.all(
             products.map(async (product) => {
                 const image = await chunksCollection.findOne({ files_id: new ObjectId(product.img) });
@@ -151,12 +151,75 @@ async function getAllProductsWithImages() {
 
 
 
+async function getAllOrders() {
 
+    try {
+        const orders = await orderCollection.find().toArray();
+        const allOrders = await Promise.all(
+            orders.map(async (order) => {
+                const orderArray = await orderArrayCollection.findOne({ _id: new ObjectId(order.order_array) });
+                const payment = await paymentCollection.findOne({_id: new ObjectId(order.payment)})
+             
+
+                return { ...order, 'orderArray': orderArray };
+            })
+        );
+
+        return allOrders;
+    } catch (error) {
+        console.log(error)
+        return "error"
+    }
+}
+
+async function getOrdersByCustomerId({customerId}){
+    try {
+        const orders = await orderCollection.find({customerId: new ObjectId(customerId)}).toArray();
+        const allOrders = await Promise.all(
+            orders.map(async (order) => {
+                const orderArray = await orderArrayCollection.findOne({ _id: new ObjectId(order.order_array) });
+                const payment = await paymentCollection.findOne({_id: new ObjectId(order.payment)})
+                return { ...order, 'orderArray': orderArray };
+            })
+        );
+
+        return allOrders;
+    } catch (error) {
+        console.log(error)
+        return "error"
+    }
+}
+
+async function updateOrder({orderId}){
+    try {
+        
+        const updatedData = await orderCollection.updateOne(
+            { _id: new ObjectId(orderId) },
+            {
+                $set: {
+                    'deliveryStatus':'delivered'   
+                }
+            }
+        );
+
+        return {
+            "msg": "good"
+        }
+        
+    } catch (error) {
+        console.log(error)
+        return {
+            "msg": "bad"
+        }
+    }
+}
 
 module.exports = {
     addClothes,
     getAllBrands,
     getAllProductsWithImages,
-    updateProductAdmin
-
+    updateProductAdmin,
+    getAllOrders,
+    getOrdersByCustomerId,
+    updateOrder
 }

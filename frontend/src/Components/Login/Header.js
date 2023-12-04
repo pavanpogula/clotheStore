@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Home, ExitToApp, ShoppingCart } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
-
+import ReorderIcon from '@mui/icons-material/Reorder';
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   backgroundColor:'black',
@@ -34,18 +34,26 @@ const Header = () => {
    
     navigate(cookies.get("role") == "customer"?"/customerDashboard":"/adminDashboard");
  }
+ const handleOrder = () => {
+  navigate(cookies.get("role") == "customer"?"/customerViewOrders":"/adminDashboard");
+ }
   return (
     <AppBarStyled position="static">
       <Toolbar>
         <Title variant="h6">
-          {`Clothe E-Store -  ${cookies.get("role")&& cookies.get("role") == "customer"?" [ Hello Customer ]":"Admin"} ]`}
+          {`Clothe E-Store -  ${ cookies.get("role") && cookies.get("role") == "customer"?" [ Hello Customer ]":cookies.get("role") == "admin"?"[ Hello Admin ]":""} `}
         </Title>
         
          {
           role == "customer" || role == "admin" ?
+          <>
           <IconButton color="inherit" onClick={()=>handleHome()}>
           <Home />
         </IconButton>
+        <IconButton color="inherit" onClick={()=>handleOrder()}>
+          <ReorderIcon />
+        </IconButton>
+        </>
         :<></>
         }
         {

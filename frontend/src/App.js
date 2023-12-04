@@ -14,6 +14,7 @@ import ErrorPage from "./Components/Customer/ErrorPage/ErrorPage";
 import ViewProductsPageCustomer from "./Components/Customer/ViewProducts/ViewProductsPageCustomer";
 import CustomerCart from "./Components/Customer/Cart/CustomerCart";
 import CustomerOrderSummary from "./Components/Customer/Orders/CustomerOrderSummary";
+import Orders from "./Components/Customer/ViewOrders/Orders";
 
 
 
@@ -33,13 +34,14 @@ function App() {
           <Route path="/adminAddProduct"  element={<AddProduct/>} />
            {/* student routes */}
            
-           <Route path="/customerDashboard"  element={<CustomerDashboardPage/>} />
+           <Route path="/customerDashboard"  element={<ViewProductsPageCustomer/>} />
            <Route path="/CustomerRegistration"  element={<CustomerRegistration/>} />
            <Route path="/CustomerOrdersPage" element={<ErrorPage/>}/>
            <Route path="/viewProductsCustomer" element={<ViewProductsPageCustomer/>}/>
            <Route path="/customerUpdateOrder" element={<ErrorPage/>}/>
            <Route path="/cart" element={<CustomerCart/>}/>
            <Route path="/checkout" element={<CustomerOrderSummary/>}/>
+           <Route path="/customerViewOrders" element={<Orders/>}/>
         </Routes>
 
       </BrowserRouter>
