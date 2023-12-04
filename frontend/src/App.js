@@ -15,6 +15,7 @@ import ViewProductsPageCustomer from "./Components/Customer/ViewProducts/ViewPro
 import CustomerCart from "./Components/Customer/Cart/CustomerCart";
 import CustomerOrderSummary from "./Components/Customer/Orders/CustomerOrderSummary";
 import Orders from "./Components/Customer/ViewOrders/Orders";
+import AdminOrders from "./Components/Admin/Orders/AdminViewOrders";
 
 
 
@@ -32,6 +33,8 @@ function App() {
           <Route path="/adminEditProduct"  element={<UpdateProduct/>} />
           <Route path="/viewProductsAdmin" element={<ViewProductsPageAdmin/>}/>
           <Route path="/adminAddProduct"  element={<AddProduct/>} />
+          <Route path="/adminViewOrders"  element={<AdminOrders/>} />
+         
            {/* student routes */}
            
            <Route path="/customerDashboard"  element={<ViewProductsPageCustomer/>} />

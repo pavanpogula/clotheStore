@@ -5,6 +5,7 @@ import { Home, ExitToApp, ShoppingCart } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import ReorderIcon from '@mui/icons-material/Reorder';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   backgroundColor:'black',
@@ -19,9 +20,9 @@ const Header = () => {
     const navigate = useNavigate();
     const cookies = new Cookies();
   const role = cookies.get("role")
-//   const handleCartClick = () => {
-//     navigate('/cart');
-//   };
+  const handleCartClick = () => {
+    navigate('/cart');
+  };
  const handleLogout = async () =>{
     await cookies.remove("id");
    await cookies.remove("role");
@@ -35,8 +36,9 @@ const Header = () => {
     navigate(cookies.get("role") == "customer"?"/customerDashboard":"/adminDashboard");
  }
  const handleOrder = () => {
-  navigate(cookies.get("role") == "customer"?"/customerViewOrders":"/adminDashboard");
+  navigate(cookies.get("role") == "customer"?"/customerViewOrders":"/adminViewOrders");
  }
+ 
   return (
     <AppBarStyled position="static">
       <Toolbar>
@@ -53,6 +55,13 @@ const Header = () => {
         <IconButton color="inherit" onClick={()=>handleOrder()}>
           <ReorderIcon />
         </IconButton>
+        {
+          role == "customer"?<>
+          <IconButton color="inherit" onClick={()=>handleCartClick()}>
+          <ShoppingCartIcon />
+        </IconButton>
+          </>:<></>
+        }
         </>
         :<></>
         }
