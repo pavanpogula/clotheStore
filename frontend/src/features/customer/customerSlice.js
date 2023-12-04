@@ -5,7 +5,7 @@ import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialState = {
     loading:false,
-    user:'',
+    user:{},
     error:''
 }
 // fulfilled, pending ,rejected
@@ -36,7 +36,7 @@ const customerSlice = createSlice({
     extraReducers: (builder) =>{
         builder.addCase(customerRegster.pending, (state) => {
             state.loading=true
-            state.user=''
+            state.user={}
             state.error=''
         })
         builder.addCase(customerRegster.fulfilled, (state,action)=>{
@@ -46,7 +46,7 @@ const customerSlice = createSlice({
         })
         builder.addCase(customerRegster.rejected, (state,action)=>{
             state.loading=false
-            state.user=''
+            state.user={}
             state.error=action.error.message
         })
        

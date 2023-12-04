@@ -51,15 +51,15 @@ const Login = () => {
     const navigate = useNavigate()
         const handleLoginRoute = async () => {
             console.log("admin data : ", loggedInData)
-            if (loggedInData.error || loggedInData.user["error"]) {
+            if (loggedInData == {} ) {
                 navigate("/login")
             }
-           else if (loggedInData.user["role"] === "admin") {
+           else if (loggedInData.user && loggedInData.user["role"] === "admin") {
                 cookies.set("role", "admin", { path: '/' });
                 cookies.set("id", loggedInData.user["_id"], { path: '/' });
                  navigate("/adminDashboard")
             }
-            else if (loggedInData.user["role"] === "customer") {
+            else if ( loggedInData.user && loggedInData.user["role"] === "customer") {
                 cookies.set("role", "customer", { path: '/' });
                 cookies.set("id", loggedInData.user["_id"], { path: '/' });
                  navigate("/customerDashboard")
