@@ -18,8 +18,6 @@ function CustomerOrderSummary() {
     const theme = createTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const insertProductData = useSelector(state=>state.customerAddedProducts['insertProductData'])
-    console.log(" customer insert data ",insertProductData)
     //delivery details
     const [deliveryType, setdeliveryType] = React.useState("pickup");
     const [deliveryAddress, setdeliveryAddress] = React.useState("6490ed82b7e7f881401855d0");
@@ -53,24 +51,16 @@ function CustomerOrderSummary() {
         })
     });
     const {selectedPayment,selectedAddress,selectedProducts} = useSelector(state => state.customerAddedProducts);
-    const placeOrder = async () =>{
-        console.log(" addressMode : ",addressMode)
-        if(addressMode['street']==="" || paymentMode['cardType']===''){
-                alert(`
-                    ${addressMode['street']===""?'Select Address':'' }\n
-                    ${paymentMode['cardType']===''?'Select Payment Mode':'' }
-                `)
-        }
-        else{
+    const placeOrder = () =>{
 
         
         dispatch(updateProductArray(filteredProducts));
        
         
-         dispatch(insertOrder( {selectedPayment,selectedAddress,'selectedProductArray':{...selectedProducts},'deliveryType':deliveryType,'customerId':cookies.get("id"),'total':paymenttotal}))
-      
+        dispatch(insertOrder( {selectedPayment,selectedAddress,'selectedProductArray':selectedProducts,'deliveryType':deliveryType,'customerId':cookies.get("id"),'total':paymenttotal}))
+     navigate('/customerViewOrders')
     }
-    }
+    
    useEffect(()=>{
     if(insertProductData == "success"){
 
