@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField,Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { ButtonContainer, Title } from './styles';
 
-import { useDispatch,  } from 'react-redux';
+import { useDispatch, useSelector,  } from 'react-redux';
 import { customerRegster } from '../../../features/customer/customerSlice';
 
 const Container = styled('div')({
@@ -44,13 +44,21 @@ const CustomerRegistration = () => {
     const [state, setState] = useState('');
     const [pincode, setPincode] = useState('');
     const [errors, setErrors] = useState({});
-    // const fetchMailArray = useSelector(
-    //     (state) => state.newStudent["studentMails"]
-    // )
-    // useEffect(() => {
-    //   dispatch(fetchStudentMailsNew())
-    // }, [])
-    
+    const customerRegister = useSelector(state=>state.userRegister['user'])
+    useEffect(()=>{
+        console.log(" customerRegister : ",customerRegister)
+        if(customerRegister["msg"] ==="409"){
+            alert("User Already Exists")
+        }
+        else if(customerRegister["msg"] ==="201"){
+            alert("User Registered Succesfully")
+            navigate("/")
+        }
+        else if(customerRegister["msg"] ==="500"){
+            alert("Try Again")
+        }
+    },[customerRegister])
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -107,8 +115,7 @@ const CustomerRegistration = () => {
 
          
                 
-                   console.log("login details : ",{"firstName":firstName,"lastName":lastName, "mail":email, "password":password,  "phone":mobileNumber, })
-
+                  
                     dispatch(customerRegster({"firstname":firstName, "lastname":lastName, "mail":email, "password":password, 
                     "phone":mobileNumber,
                     'street':address, 
@@ -116,8 +123,8 @@ const CustomerRegistration = () => {
                     'country':"USA", 
                     'pin':pincode, 
                     'state':state }))
-            alert("Customer Registered Succesfully")
-            navigate("/")
+         
+      
             
         }
         

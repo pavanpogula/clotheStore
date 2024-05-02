@@ -18,10 +18,10 @@ const customerLogin = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/loginCustomer',
+            'http://localhost:8080/loginCustomer',
             { mail:email, password },
             config)
-        return response.data.data
+        return response.data
 
     }
     
@@ -36,10 +36,10 @@ const customerFetch = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/getCustomerDetailsById',
+            'http://localhost:8080/getCustomerDetailsById',
             { id },
             config)
-        return response.data.data
+        return response.data
 
     }
     
@@ -54,10 +54,10 @@ const adminFetch = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/getAdminDetailsById',
+            'http://localhost:8080/getAdminDetailsById',
             { id },
             config)
-        return response.data.data
+        return response.data
 
     }
     
@@ -72,10 +72,10 @@ const adminLogin = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/loginAdmin',
+            'http://localhost:8080/loginAdmin',
             { mail:email, password },
             config)
-        return response.data.data
+        return response.data
 
     }
     
@@ -86,6 +86,11 @@ const adminLogin = createAsyncThunk(
 const userSlice = createSlice({
     name:'user',
     initialState,
+    reducers: {
+        resetCustomer(state){
+            state.user={}
+        }
+    },
     extraReducers: (builder) =>{
         builder.addCase(customerLogin.pending, (state) => {
             state.loading=true
@@ -152,5 +157,6 @@ const userSlice = createSlice({
 
 export default userSlice.reducer
 export {customerFetch,customerLogin,adminLogin,adminFetch}
+export const {resetCustomer} = userSlice.actions
 
 

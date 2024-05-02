@@ -23,10 +23,8 @@ export default function BrandSelect({handleInputChange,brand}) {
           value={brand}
           label="Select Brand"
           name='brand'
-         
         >
            <MenuItem key={'011'} value={brand}>{brand}</MenuItem>
-          
         </Select>
        
       </FormControl>

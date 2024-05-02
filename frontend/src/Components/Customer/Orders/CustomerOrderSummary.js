@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MainNav } from '../../Admin/styles/styles'
 import HeaderTextComponent from '../../Login/HeaderTextComponent'
 import styled from "styled-components"
@@ -9,7 +9,7 @@ import FormComponent from './FormComponent';
 import Total from './Total';
 import Button from '@mui/material/Button';
 import { useSelector,useDispatch } from 'react-redux';
-import { insertOrder, updateProductArray } from '../../../features/product/customerProductSlice';
+import { insertOrder, updateAddress, updateInsertProduct, updatePayment, updateProduct, updateProductArray } from '../../../features/product/customerProductSlice';
 import { Cookies } from 'react-cookie';
 
 function CustomerOrderSummary() {
@@ -36,6 +36,8 @@ function CustomerOrderSummary() {
 
     const productsData = useSelector(state => state.adminProducts['productsWithImages'])
     const sizesData = useSelector(state => state.customerAddedProducts['selectedProducts']);
+    const paymentMode = useSelector(state => state.customerAddedProducts['selectedPayment']);
+    const addressMode = useSelector(state => state.customerAddedProducts['selectedAddress']);
     
     const filteredProducts = Object.keys(sizesData).map(productId => {
         const productData = Object.values(productsData).filter((obj) => obj._id === productId)
@@ -52,14 +54,44 @@ function CustomerOrderSummary() {
     });
     const {selectedPayment,selectedAddress,selectedProducts} = useSelector(state => state.customerAddedProducts);
     const placeOrder = async () =>{
+        console.log(" addressMode : ",addressMode)
+        if(addressMode['street']==="" || paymentMode['cardType']===''){
+                alert(`
+                    ${addressMode['street']===""?'Select Address':'' }\n
+                    ${paymentMode['cardType']===''?'Select Payment Mode':'' }
+                `)
+        }
+        else{
 
+        
         dispatch(updateProductArray(filteredProducts));
        
         
-        await dispatch(insertOrder( {selectedPayment,selectedAddress,'selectedProductArray':selectedProducts,'deliveryType':deliveryType,'customerId':cookies.get("id"),'total':paymenttotal}))
-        if(insertProductData["msg"] == "good")
-         navigate('/customerViewOrders')
+         dispatch(insertOrder( {selectedPayment,selectedAddress,'selectedProductArray':{...selectedProducts},'deliveryType':deliveryType,'customerId':cookies.get("id"),'total':paymenttotal}))
+      
     }
+    }
+   useEffect(()=>{
+    if(insertProductData == "success"){
+
+        navigate('/customerViewOrders')
+        dispatch(updateProduct({}));
+        dispatch(updateAddress({
+           street:'',
+           pin:'',
+           city:'',
+           country:'',
+           state:''
+       }))
+       dispatch(updatePayment({
+           cardType:'',
+           cardNumber:'',
+       }))
+       dispatch(updateProductArray([]));
+       dispatch(updateInsertProduct())
+       }
+
+   },[insertProductData])
   return (
    <>
    <MainNav>
@@ -70,7 +102,7 @@ function CustomerOrderSummary() {
                     <ThemeProvider theme={theme}>
                         <FormComponent
                             setdeliveryType={setdeliveryType}
-                            setdeliveryAddress={setdeliveryAddress}
+                            
                         />
                     </ThemeProvider>
                 </AddressBox>

@@ -21,48 +21,24 @@ function ShowOrderPageAdmin() {
         navigate('/adminViewOrders')
     }
 
-    const cancelOrder = async () =>{
-        const data = {
-            delivery_status: cancelValue=="Cancelled"?cancelValue:"CCancelled",
-            canReturn:cancelValue=="Cancelled"?"Yes":"No",
-            cancel_done:cancelValue=="Cancelled"?true:false,
-            productDetails: state.products_details
-        }
-        const response = await axios.put(`http://localhost:8000/cancelOrderAdmin/${state._id}`, { ...data })
-            .then(e => e.data.data);
-        if (response.msg == "success") {
-
-            navigate("/adminOrderDetails")
-
-        }
-    }
+ 
 
 
     const deliverOrder = async () => {
-
-        const data = {
-            deliveryStatus: "delivered",
-        }
-
-        const response = await axios.post(`http://localhost:8000/updateOrder`, { orderId:state._id })
+        if(age==='Delivered')
+        {const response = await axios.post(`http://localhost:8080/updateOrder`, { orderId:state.id })
             .then(e => e.data);
-        if (response.msg == "good") {
-
+        if (response == "success") {
             navigate("/adminViewOrders")
-
-        }
+        }}
 
     }
     const [age, setAge] = React.useState('InProgress');
-    const[cancelValue,setCancelvalue] = React.useState("")
-    //const [deliveryOptions,setdeliveryOptions] = React.useState(state.delivery_type == "delivery"?["Delivered","In"]:[])
-
+   
     const handleChange = (event) => {
         setAge(event.target.value);
     };
-    const handleCancelChange = (event) => {
-        setCancelvalue(event.target.value);
-    };
+    
     return (
         <MainNav>
             <LeftContainer>
@@ -96,12 +72,7 @@ function ShowOrderPageAdmin() {
                                         label="Age"
                                         onChange={handleChange}
                                     >
-                                        {
-                                            state.deliveryType == "delivery" ?
-                                                <MenuItem key={'331'} value={"Delivered"}>{"Delivered"}</MenuItem>
-                                                :
-                                                <MenuItem key={'3ww31'} value={"ReadyForPickup"}>{"ReadyForPickup"}</MenuItem>
-                                        }
+                                        <MenuItem key={'331'} value={"Delivered"}>{"Delivered"}</MenuItem>
                                         <MenuItem key={'331qq'} value={"InProgress"}>{"InProgress"}</MenuItem>
                                     </Select>
                                 </FormControl>
@@ -115,10 +86,6 @@ function ShowOrderPageAdmin() {
 
                     </> :<></>
 }
-            
-                
-
-
             </RightContainer>
 
         </MainNav>

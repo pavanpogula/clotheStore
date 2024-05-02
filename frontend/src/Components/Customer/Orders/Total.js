@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from "styled-components"
 
 
-function Total({ setpaymenttotal, setorderProducts }) {
+function Total({ setpaymenttotal,  }) {
 
     const [totalPriceValue, setTotalPrice] = useState(0);
     const productsData = useSelector(state => state.adminProducts['productsWithImages'])
@@ -31,7 +31,7 @@ function Total({ setpaymenttotal, setorderProducts }) {
         const totalValue = calculateTotalPrice(filteredProducts);
         setTotalPrice(totalValue)
         setTotalCost(multiplyFun(totalValue, 0.085))
-        setpaymenttotal(multiplyFun(totalValue, 0.085))
+        setpaymenttotal((multiplyFun(totalValue, 0.085)).toFixed(2))
     }, [])
 
     const multiplyFun = (a, b) => {

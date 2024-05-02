@@ -39,7 +39,7 @@ export default function CustomizedTables() {
     React.useEffect(() => {
  
         const fectOrderDetails = async () =>{
-        const response = await axios.post(`http://localhost:8000/getOredrsByCustId`,{'customerId':cookies.get("id")}
+        const response = await axios.post(`http://localhost:8080/getOrdersByCustomerId`,{'customerId':cookies.get("id")}
         ,{
             headers: {
               'Content-Type': 'application/json',
@@ -79,14 +79,13 @@ const convertToDateText = (dateString) => {
                 <StyledTableCell component="th" scope="row">
                   {index+1}
                 </StyledTableCell>
-                <StyledTableCell align="right">{obj._id}</StyledTableCell>
+                <StyledTableCell align="right">{obj.id}</StyledTableCell>
                 <StyledTableCell align="right">{convertToDateText(obj.timestamp)}</StyledTableCell>
                 <StyledTableCell align="right">{obj.total} </StyledTableCell>
                 <StyledTableCell align="right">{obj.deliveryStatus} </StyledTableCell>
                 </StyledTableRow>
             ))}
           </TableBody>:<TableBody>
-            
               <StyledTableRow>
                 <StyledTableCell component="th" scope="row">
                   {'-'}
@@ -95,9 +94,7 @@ const convertToDateText = (dateString) => {
                 <StyledTableCell align="right">{'-'}</StyledTableCell>
                 <StyledTableCell align="right">{'-'} $</StyledTableCell>
                 </StyledTableRow>
-            
           </TableBody>
-
         }
         
       </Table>

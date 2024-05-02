@@ -3,9 +3,11 @@ import { styled } from '@mui/system';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Home, ExitToApp, ShoppingCart } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
+import { Cookies, useCookies } from 'react-cookie';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useDispatch } from 'react-redux';
+import { resetCustomer } from '../../features/user/userSlice';
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   backgroundColor:'black',
@@ -18,14 +20,18 @@ const Title = styled(Typography)(({ theme }) => ({
 
 const Header = () => {
     const navigate = useNavigate();
-    const cookies = new Cookies();
-  const role = cookies.get("role")
+    const cookiesv = new Cookies();
+    const dispatch = useDispatch()
+  const role = cookiesv.get("role")
   const handleCartClick = () => {
     navigate('/cart');
   };
  const handleLogout = async () =>{
-    await cookies.remove("id");
-   await cookies.remove("role");
+
+  cookiesv.remove("id");
+
+  cookiesv.remove("role");
+  dispatch(resetCustomer())
     navigate("/login")
 
  }
@@ -33,21 +39,21 @@ const Header = () => {
 
  const handleHome = () =>{
    
-    navigate(cookies.get("role") == "customer"?"/customerDashboard":"/adminDashboard");
+    navigate(cookiesv.get("role") === "customer"?"/customerDashboard":"/adminDashboard");
  }
  const handleOrder = () => {
-  navigate(cookies.get("role") == "customer"?"/customerViewOrders":"/adminViewOrders");
+  navigate(cookiesv.get("role") === "customer"?"/customerViewOrders":"/adminViewOrders");
  }
  
   return (
     <AppBarStyled position="static">
       <Toolbar>
         <Title variant="h6">
-          {`Clothe E-Store -  ${ cookies.get("role") && cookies.get("role") == "customer"?" [ Hello Customer ]":cookies.get("role") == "admin"?"[ Hello Admin ]":""} `}
+          {`Clothe E-Store -  ${ cookiesv.get("role") && cookiesv.get("role") === "customer"?" [ Hello Customer ]":cookiesv.get("role") === "admin"?"[ Hello Admin ]":""} `}
         </Title>
         
          {
-          role == "customer" || role == "admin" ?
+          role === "customer" || role === "admin" ?
           <>
           <IconButton color="inherit" onClick={()=>handleHome()}>
           <Home />
@@ -66,7 +72,7 @@ const Header = () => {
         :<></>
         }
         {
-          role == "customer" || role == "admin" ?
+          role === "customer" || role === "admin" ?
           <IconButton color="inherit"  onClick={()=>handleLogout()} >
           <ExitToApp />
         </IconButton>

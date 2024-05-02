@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { TextField, Button, Grid } from '@mui/material';
 import styled from 'styled-components'
 
@@ -6,8 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import MultipleSelectSizes from './MultipleSelectSizes';
 import BrandSelect from './BrandSelect';
 import { useDispatch } from 'react-redux';
-import { insertProducts, updateProductAdmin } from '../../../features/product/adminProductSlice';
+import {  updateProductAdmin } from '../../../features/product/adminProductSlice';
 import HeaderTextComponent from '../../Login/HeaderTextComponent';
+import { Cookies } from 'react-cookie';
 
 
 const Container = styled.div`
@@ -19,16 +20,16 @@ const Container = styled.div`
 `;
 
 const UpdateProduct = () => {
-
   const {state} = useLocation();
-
-
-
-
-
   const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+    const cookiesv = new Cookies();
+  const role = cookiesv.get("role")
+  useEffect(() => {
+      if(!role){
+        navigate('/login')
+      }
+    }, [])
     const validateNumberString = (input)=> {
         const numberRegex = /^-?\d+(\.\d+)?$/;
         return numberRegex.test(input);
@@ -38,7 +39,7 @@ const UpdateProduct = () => {
   const [description, setdescription] = useState(state.description);
   const [price, setPrice] = useState(state.price);
   const [company, setCompany] = useState('none');
-  const [quantity, setQuantity] = useState('');
+  const [quantity, setQuantity] = useState('0');
   //brand cannot be changed
   const [brand, setBrand] = useState(state.brand);
   //image cannot be changed
@@ -79,9 +80,9 @@ const UpdateProduct = () => {
     if (!description.trim()) errors.description = true;
     if (!price.trim()) errors.price = true;
     if (!company.trim()) errors.company = true;
-    if (!quantity.trim()) errors.quantity = true;
+ 
     if (!color) errors.color = true;
-    if (!sizes) errors.sizes = true;
+  
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
       alert('Fields should not be empty');
@@ -90,10 +91,6 @@ const UpdateProduct = () => {
       dispatch(updateProductAdmin({productId,title, description, price,color, quantity, sizes}))
       navigate("/adminDashboard")
     }
-
-    
-
-   
   };
  
 
@@ -137,7 +134,8 @@ const UpdateProduct = () => {
       
    {errors.sizes && <span style={{color:'red'}}>Sizes can't be empty</span>}
       <MultipleSelectSizes handleSetSizes={handleSetSizes} />
-      <TextField
+      {
+        sizes.length>0 &&<TextField
         label="Product Quantity"
         name="quantity"
         type="number"
@@ -146,9 +144,7 @@ const UpdateProduct = () => {
         error={errors.quantity}
         helperText={errors.quantity ? 'Quantity is required' : ''}
       />
-      
-      
-      
+}
       <Button variant="contained" color="primary" onClick={handleSubmit}>
         Submit
       </Button>

@@ -18,7 +18,7 @@ const customerRegster = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/addCustomer',
+            'http://localhost:8080/addCustomer',
             {  mail, password,phone,street,city,country,pin,state,firstname, lastname },
             config)
         return response.data
@@ -33,6 +33,7 @@ const customerRegster = createAsyncThunk(
 const customerSlice = createSlice({
     name:'customer',
     initialState,
+   
     extraReducers: (builder) =>{
         builder.addCase(customerRegster.pending, (state) => {
             state.loading=true

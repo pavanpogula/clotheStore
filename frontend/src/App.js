@@ -1,11 +1,10 @@
 import React from "react";
 import {
-  BrowserRouter, Routes, Route
+  BrowserRouter, Routes, Route,
+
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Header from "./Components/Login/Header";
-import AdminDashboardPage from "./Components/Admin/Dashboard/AdminDashboard";
-import CustomerDashboardPage from "./Components/Customer/Dashboard/CustomerDashboardPage";
 import AddProduct from "./Components/Admin/Products/AddProduct";
 import UpdateProduct from "./Components/Admin/UpdateProduct/UpdateProduct";
 import ViewProductsPageAdmin from "./Components/Admin/ViewProducts/AdminDashboardPage";
@@ -16,12 +15,15 @@ import CustomerCart from "./Components/Customer/Cart/CustomerCart";
 import CustomerOrderSummary from "./Components/Customer/Orders/CustomerOrderSummary";
 import Orders from "./Components/Customer/ViewOrders/Orders";
 import AdminOrders from "./Components/Admin/Orders/AdminViewOrders";
-import SingleOrderTable from "./Components/Admin/Orders/SingleOrderTable";
+
 import ShowOrderPageAdmin from "./Components/Admin/Orders/ShowOrderPage";
 
 
 
+
 function App() {
+  
+  
   return (
     <div className="App">
    

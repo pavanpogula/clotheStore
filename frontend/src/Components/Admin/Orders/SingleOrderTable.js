@@ -8,8 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
-import { Cookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,19 +32,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function SingleOrderTable({orderDetails}) {
   
-    const cookies = new Cookies()
-    const navigate = useNavigate();
+ 
    const[paymentDetails,setPaymentDetails] = React.useState("");
-    const multiplyFun = (a, b) => {
-        const total = parseFloat(((a * b).toFixed(2)));
-        return total
-    };
+    
 const addressdata = orderDetails.addressData['street'] + " | "+orderDetails.addressData['city']+" |  "+orderDetails.addressData['pin']
    
     React.useEffect(() => {
      
       const fetchPaymentDetails = async () =>{
-        const response = await axios.get(`http://localhost:8000/payment/${orderDetails.payment}`)
+        const response = await axios.get(`http://localhost:8080/payment?id=${orderDetails.payment}`)
         .then( e => e.data);
         
         console.log("response data : ",response)
@@ -60,44 +54,26 @@ const addressdata = orderDetails.addressData['street'] + " | "+orderDetails.addr
     }, [])
     
 
-    console.log("admin order details : ",orderDetails)
-const convertToDateText = (dateString) => {
-    const date = new Date(dateString);
-
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    const formattedDate = date.toLocaleDateString('en-US', options);
-    return formattedDate;
-}
+   
  return(<> <TableContainer component={Paper}>
   <Table sx={{ minWidth: 700 }} aria-label="customized table">
     <TableHead>
       <TableRow>
-        
-       
       <StyledTableCell align="right">ID</StyledTableCell>
         <StyledTableCell align="right">Total</StyledTableCell>
         </TableRow>
     </TableHead>
     <TableBody>
-        
-           
           <StyledTableRow>
-            
-          <StyledTableCell align="right">{orderDetails._id}</StyledTableCell>
+          <StyledTableCell align="right">{orderDetails.id}</StyledTableCell>
             <StyledTableCell align="right">{orderDetails.total}</StyledTableCell>
-            
             </StyledTableRow>
-            
-            
-        
       </TableBody>
   </Table>
 </TableContainer>
 
-
 <TableContainer component={Paper} style={{marginTop:'20px'}}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        
         {
            <TableBody>
             
@@ -105,7 +81,7 @@ const convertToDateText = (dateString) => {
                 <StyledTableCell component="th" scope="row">
                   Order ID
                 </StyledTableCell>
-                <StyledTableCell align="right">{orderDetails._id}</StyledTableCell>
+                <StyledTableCell align="right">{orderDetails.id}</StyledTableCell>
             </StyledTableRow>
 
             <StyledTableRow>
@@ -148,21 +124,9 @@ const convertToDateText = (dateString) => {
                 </StyledTableCell>
                 <StyledTableCell align="right">{orderDetails.total} $</StyledTableCell>
             </StyledTableRow>
-            
-            
-
           </TableBody>
-
         }
-        
       </Table>
     </TableContainer>
-
-
-
-
-
-
-
 </>)
 }

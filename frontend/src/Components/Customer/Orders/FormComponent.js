@@ -11,8 +11,7 @@ import {
   Button,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { Cookies } from 'react-cookie';
-import axios from 'axios';
+
 import { updateAddress, updateDeliveryType } from '../../../features/product/customerProductSlice';
 import { useDispatch } from 'react-redux';
 
@@ -48,7 +47,7 @@ const PickupText = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
 }));
 
-const FormComponent = ({setdeliveryType,setdeliveryAddress}) => {
+const FormComponent = ({setdeliveryType}) => {
 
 
   const [shippingMethod, setShippingMethod] = useState('');

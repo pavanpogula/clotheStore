@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -41,7 +41,8 @@ export default function CustomizedTables({ sizesArray,productId }) {
   const dispatch = useDispatch();
   const sizesData = useSelector(state=> state.customerAddedProducts['selectedProducts']);
   const [newSizes, setNewSizes] = React.useState(sizesData[productId]?sizesData[productId]:sizesArray.map(size => ({ ...size, selected: 0 })));
-  
+  const {pathname} = useLocation();
+  console.log("pathname : ",pathname)
  
   React.useEffect(() => {
     const selectedProductsCopy = { ...sizesData }; // Assuming 'selectedProducts' is from your Redux state
@@ -88,6 +89,7 @@ export default function CustomizedTables({ sizesArray,productId }) {
         </TableHead>
         <TableBody>
           {newSizes.map((row,index) => (
+            pathname==='/cart' && row.selected==0?<></>:
             <StyledTableRow key={row.size}>
               <StyledTableCell component="th" scope="row">
                 {row.size}

@@ -27,8 +27,8 @@ const insertOrder = createAsyncThunk(
         console.log({ selectedPayment,selectedAddress,selectedProductArray,deliveryType,customerId,total })
       
        const response = await axios.post(
-            'http://localhost:8000/placeOrder',
-            {selectedPayment,selectedAddress,selectedProductArray,deliveryType,customerId,total }
+            'http://localhost:8080/placeOrder',
+            {selectedPayment,selectedAddress,"selectedProductArray":{...selectedProductArray},deliveryType,customerId,total }
             ,{
                 headers: {
                   'Content-Type': 'application/json',
@@ -69,6 +69,9 @@ const customerSelectedItemsSlice = createSlice({
         },
         updateDeliveryType: (state,action) =>{
             state.deliveryType=action.payload
+        },
+        updateInsertProduct: (state)=>{
+            state.insertProductData=''
         }
     },
     extraReducers: (builder) =>{
@@ -79,7 +82,7 @@ const customerSelectedItemsSlice = createSlice({
         })
         builder.addCase(insertOrder.fulfilled, (state,action)=>{
             state.loading=false
-            state.insertProductData=action.payload
+            state.insertProductData='success'
             state.error=''
         })
         builder.addCase(insertOrder.rejected, (state,action)=>{
@@ -92,5 +95,5 @@ const customerSelectedItemsSlice = createSlice({
 
 
 export default customerSelectedItemsSlice.reducer
-export const {updateDeliveryType,updateProductArray,updateProduct,updatePayment, updateAddress } = customerSelectedItemsSlice.actions;
+export const {updateDeliveryType,updateProductArray,updateProduct,updatePayment, updateAddress,updateInsertProduct } = customerSelectedItemsSlice.actions;
 export  {insertOrder};

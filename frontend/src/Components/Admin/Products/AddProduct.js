@@ -9,13 +9,6 @@ import { useDispatch } from 'react-redux';
 import { insertProducts } from '../../../features/product/adminProductSlice';
 
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 400px;
-  margin: 0 auto;
-`;
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -81,6 +74,7 @@ const AddProduct = () => {
       alert('Fields should not be empty');
       return;
     }else{
+     
       dispatch(insertProducts({title, description, price,color, company, quantity, image, sizes, brand}));
       navigate("/adminDashboard")
     }
@@ -172,5 +166,12 @@ const AddProduct = () => {
     </Container>
   );
 };
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+`;
 
 export default AddProduct;

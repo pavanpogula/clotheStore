@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,19 +11,13 @@ import Typography from '@mui/material/Typography';
 import CustomizedTables from './CustomizedTables';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+
 
 export default function ProductCard({productData}) {
+  const cookies = new Cookies();
+  const role = cookies.get("role")
   const navigate = useNavigate();
     const {
         productId,
@@ -33,7 +27,8 @@ export default function ProductCard({productData}) {
         title,
         imageData,
         description,
-        sizesArray
+        sizesArray,
+        sales
       } = productData
 
 
@@ -65,6 +60,7 @@ export default function ProductCard({productData}) {
         height="194"
         image={imageData}
         alt="Paella dish"
+        sx={{objectFit:'contain'}}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -76,6 +72,9 @@ export default function ProductCard({productData}) {
           <Typography variant="body2" color="text.secondary">
             Description :  <b>{description}</b>
           </Typography>
+         {role=='admin'?<Typography variant="body2" color="text.secondary">
+            Number of Sales :  <b>{sales}</b>
+          </Typography>:<></>} 
           <br/>
           <CustomizedTables sizesArray={sizesArray}/>
       </CardContent>

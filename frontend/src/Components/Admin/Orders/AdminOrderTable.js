@@ -10,7 +10,10 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -33,12 +36,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function CustomizedTables() {
+  const [filterData, setFilterData] = React.useState('all');
+
+  const handleChange = (event) => {
+    setFilterData(event.target.value);
+  };
     const[orderDetails,setOrderDetails]= React.useState([]);
     const cookies = new Cookies()
     const navigate = useNavigate();
     React.useEffect(() => {
         const fectOrderDetails = async () =>{
-        const response = await axios.get(`http://localhost:8000/getAllOrders`)
+        const response = await axios.get(`http://localhost:8080/getAllOrders`)
         .then( e => e.data);
         setOrderDetails(Object.values(response));
         console.log("response data : ",response)
@@ -64,7 +72,23 @@ const convertToDateText = (dateString) => {
     const formattedDate = date.toLocaleDateString('en-US', options);
     return formattedDate;
 }
-  return (
+  return (<>
+  <div style={{marginBottom:'30px',marginTop:'30px'}}>
+  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+      <InputLabel id="demo-select-small-label">Delivery Type</InputLabel>
+      <Select
+        labelId="demo-select-small-label"
+        id="demo-select-small"
+        value={filterData}
+        label="Age"
+        onChange={handleChange}
+      >
+        <MenuItem value={"all"}>All</MenuItem>
+        <MenuItem value={"pickup"}>Store Pickup</MenuItem>
+        <MenuItem value={"delivery"}>Home Delivery</MenuItem>
+      </Select>
+    </FormControl>
+  </div>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -78,14 +102,23 @@ const convertToDateText = (dateString) => {
         {
             orderDetails.length>0?<TableBody>
             {orderDetails.map((obj,index) => (
+              filterData==="all"?<StyledTableRow key={index} onClick={()=>orderPageHandler(obj)} style={{cursor:'pointer'}}>
+              <StyledTableCell component="th" scope="row">
+                {index+1}
+              </StyledTableCell>
+              <StyledTableCell align="right">{obj.id}</StyledTableCell>
+              <StyledTableCell align="right">{convertToDateText(obj.timestamp)}</StyledTableCell>
+              <StyledTableCell align="right">{obj.total} $ </StyledTableCell>
+              </StyledTableRow>:
+              obj['deliveryType']===filterData?
               <StyledTableRow key={index} onClick={()=>orderPageHandler(obj)} style={{cursor:'pointer'}}>
                 <StyledTableCell component="th" scope="row">
                   {index+1}
                 </StyledTableCell>
-                <StyledTableCell align="right">{obj._id}</StyledTableCell>
+                <StyledTableCell align="right">{obj.id}</StyledTableCell>
                 <StyledTableCell align="right">{convertToDateText(obj.timestamp)}</StyledTableCell>
-                <StyledTableCell align="right">{obj.total} </StyledTableCell>
-                </StyledTableRow>
+                <StyledTableCell align="right">{obj.total} $ </StyledTableCell>
+                </StyledTableRow>:<></>
             ))}
           </TableBody>:<TableBody>
             
@@ -104,5 +137,6 @@ const convertToDateText = (dateString) => {
         
       </Table>
     </TableContainer>
+    </>
   );
 }

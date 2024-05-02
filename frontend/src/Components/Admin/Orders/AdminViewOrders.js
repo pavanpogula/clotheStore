@@ -2,14 +2,24 @@ import React, { useEffect } from 'react'
 
 import styled from "styled-components"
 import CustomizedTables from './AdminOrderTable';
+import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 
 
 function AdminOrders() {
- 
-    
+    const navigate = useNavigate();
+    const cookiesv = new Cookies();
+    const role = cookiesv.get("role")
+    useEffect(() => {
+   
+        if(!role){
+          navigate('/login')
+        }
+      }, [])
     
     return (
+        role?
         <MainNav>
             <LeftContainer>
                 <Card>
@@ -21,7 +31,7 @@ function AdminOrders() {
             </LeftContainer>
             
 
-        </MainNav>
+        </MainNav>:<></>
     )
 }
 
@@ -37,8 +47,6 @@ height:500px;
 margin-right:10px;
 margin-left:10px;
 `;
-
-
 
 const Title = styled.h3`
 text-align:center;

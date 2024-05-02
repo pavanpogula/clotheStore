@@ -8,19 +8,26 @@ import ProductCard from './ProductCard';
 import { MainNav } from '../styles/styles';
 import HeaderTextComponent from '../../Login/HeaderTextComponent';
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 
 
 function ViewProductsPageAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cookiesv = new Cookies();
+  const role = cookiesv.get("role")
   const productsData = useSelector(state => state.adminProducts['productsWithImages'])
   const addProduct = ()=>{
     navigate('/adminAddProduct');
   }
   useEffect(() => {
     dispatch(getAllProductsWithImages());
+    if(!role){
+      navigate('/login')
+    }
   }, [])
+
 
   return (
 
@@ -47,7 +54,8 @@ function ViewProductsPageAdmin() {
                   'title': obj.title,
                   'description': obj.description,
                   'imageData': obj.image,
-                  'sizesArray': sizesArray
+                  'sizesArray': sizesArray,
+                  'sales':obj.sales
                 }}
                 />
 

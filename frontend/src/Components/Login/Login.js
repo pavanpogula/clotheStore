@@ -56,12 +56,12 @@ const Login = () => {
             }
            else if (loggedInData.user && loggedInData.user["role"] === "admin") {
                 cookies.set("role", "admin", { path: '/' });
-                cookies.set("id", loggedInData.user["_id"], { path: '/' });
+                cookies.set("id", loggedInData.user["id"], { path: '/' });
                  navigate("/adminDashboard")
             }
             else if ( loggedInData.user && loggedInData.user["role"] === "customer") {
                 cookies.set("role", "customer", { path: '/' });
-                cookies.set("id", loggedInData.user["_id"], { path: '/' });
+                cookies.set("id", loggedInData.user["id"], { path: '/' });
                  navigate("/customerDashboard")
             }
         }

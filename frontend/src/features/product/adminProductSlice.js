@@ -20,7 +20,7 @@ const getAllBrands = createAsyncThunk(
             },
           }
        const response = await axios.get(
-            'http://localhost:8000/getAllBrands',
+            'http://localhost:8080/getAllBrands',
             config)
         return response.data.brands
     }
@@ -36,7 +36,7 @@ const getAllProductsWithImages = createAsyncThunk(
             },
           }
        const response = await axios.get(
-            'http://localhost:8000/getAllProductsWithImages',
+            'http://localhost:8080/getAllProductsWithImages',
             config)
             console.log("data response  : ",response.data)
         return response.data
@@ -56,7 +56,7 @@ const insertProducts = createAsyncThunk(
             },
           }
        const response = await axios.post(
-            'http://localhost:8000/addProduct',
+            'http://localhost:8080/addProduct',
             {'title':title,'description': description,'color':color, 'price':price, 'company':company,'quantity': quantity, 'productImage':image, 'sizes': sizes, 'brand': brand }
             ,{
                 headers: {
@@ -75,7 +75,7 @@ const updateProductAdmin = createAsyncThunk(
         console.log({ productId, sizes, quantity, price, color, title, description  })
         
        const response = await axios.post(
-            'http://localhost:8000/updateProductAdmin',
+            'http://localhost:8080/updateProductAdmin',
             {'title':title,'description': description,'color':color, 'price':price, 'quantity': quantity, 'sizes': sizes, 'productId':productId }
             ,{
                 headers: {
